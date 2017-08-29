@@ -1,0 +1,19 @@
+Create REST API in .NET that allows to manage customers.
+Customer has following attributes: first name, last name, date of birth, eyes color, passport id (it's unique).
+API should have following methods:
+a) add a customer (If given customer exists, his record is updated)
+b) delete a customer
+c) get number of customers born on date passed in parameter
+ 
+Technologies to use:
+- WebAPI
+- EntityFramework
+- MS SQL Server (any version, edition)
+ 
+DB structure for the task can be created manually, no need for any DB deployment script etc.
+The exact WebAPI method parameters are up to candidate, the most important is to fulfill business requirements.
+ 
+The primary goal is to deliver working solution in a given time. This is the most important part.
+What will be evaluated? Code quality, design and performance.
+ 
+Time to accomplish: 4h.
