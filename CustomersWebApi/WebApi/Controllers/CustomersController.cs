@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -8,7 +9,6 @@ using System.Web.Http;
 using NLog;
 using WebApi.Domain;
 using WebApi.Domain.Model;
-using WebApi.Interfaces;
 
 namespace WebApi.Controllers
 {
@@ -28,8 +28,7 @@ namespace WebApi.Controllers
             var customer = await _context.Customers.FirstOrDefaultAsync(c => c.PassportId == id);
             if (customer == null)
             {
-                throw new HttpResponseException(
-                    System.Net.HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             return customer;
         }
@@ -54,20 +53,14 @@ namespace WebApi.Controllers
         {
             if (customer == null)
             {
-                return BadRequest("Argument Null");
+                return BadRequest($"Argument {nameof(customer)} is null");
             }
-            var companyExists = await _context.Customers.AnyAsync(c => c.PassportId == customer.PassportId);
-
-            if (companyExists)
-            {
-                return BadRequest("Exists");
-            }
-
-            _context.Customers.Add(customer);
+            _context.Customers.AddOrUpdate(customer);
             await _context.SaveChangesAsync();
             return Ok();
         }
 
+        [HttpDelete]
         public async Task<IHttpActionResult> Delete(string id)
         {
             var customer = await _context.Customers.FirstOrDefaultAsync(c => c.PassportId == id);

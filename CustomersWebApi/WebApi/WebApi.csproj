@@ -71,9 +71,9 @@
   <ItemGroup>
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Domain\ApplicationDbInitializer.cs" />
+    <Compile Include="Domain\DefaultCustomers.cs" />
     <Compile Include="Domain\CustomersDbContext.cs" />
     <Compile Include="Domain\Model\Customer.cs" />
-    <Compile Include="CustomersService.cs" />
     <Compile Include="Domain\Model\EyesColor.cs" />
     <Compile Include="Interfaces\ICustomersService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

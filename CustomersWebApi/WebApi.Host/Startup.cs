@@ -1,4 +1,9 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
+using System.Reflection;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
@@ -31,7 +36,31 @@ namespace WebApi.Host
                 "DefaultApi",
                 "api/{controller}/{id}",
                 new { id = RouteParameter.Optional });
+            var jsonFormatter = new JsonMediaTypeFormatter();
+            //optional: set serializer settings here
+            config.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(jsonFormatter));
             return config;
+        }
+
+
+    }
+    public class JsonContentNegotiator : IContentNegotiator
+    {
+        private readonly JsonMediaTypeFormatter _jsonFormatter;
+
+        public JsonContentNegotiator(JsonMediaTypeFormatter formatter)
+        {
+            _jsonFormatter = formatter;
+        }
+
+        public ContentNegotiationResult Negotiate(
+                Type type,
+                HttpRequestMessage request,
+                IEnumerable<MediaTypeFormatter> formatters)
+        {
+            return new ContentNegotiationResult(
+                _jsonFormatter,
+                new MediaTypeHeaderValue("application/json"));
         }
     }
 }
